@@ -29,3 +29,7 @@ def decide_next_node(state: AgentState) -> AgentState:
 
 
 graph = StateGraph(AgentState)
+graph.add_node("add_node", adder)
+graph.add_node("subtract_node", substractor)
+# graph.add_node("router", decide_next_node)
+graph.add_edge("router", lambda state: state)
