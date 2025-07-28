@@ -32,4 +32,20 @@ graph = StateGraph(AgentState)
 graph.add_node("add_node", adder)
 graph.add_node("subtract_node", substractor)
 # graph.add_node("router", decide_next_node)
-graph.add_edge("router", lambda state: state)
+graph.add_edge("router", lambda state: state)  # passthrough function
+
+graph.add_edge(START, "router")
+graph.add_conditional_edges(
+    "router",
+    decide_next_node,
+    {"additional_operation": "add_node", "subtraction_operation": "subtract_node"},
+)
+
+graph.add_edge("add_node", END)
+graph.add_edge("subtract_node", END)
+
+app = graph.compile()
+
+from IPython.display import display
+
+display(app.get_graph().draw_mermaid_png())
